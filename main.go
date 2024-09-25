@@ -1,8 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 )
 
@@ -29,24 +30,13 @@ func main() {
 		UpdatedAt:   nil,
 	}
 
-	jsonData, err := json.Marshal(item)
+	r := gin.Default()
 
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": item,
+		})
+	})
 
-	fmt.Println(string(jsonData))
-
-	jsonStr := "{\"id\":1,\"title\":\"This is item 1\",\"description\":\"This is item 1\",\"status\":\"Doing\",\"created_at\":\"2024-09-25T11:00:07.7584009Z\",\"updated_at\":null}"
-
-	var item2 TodoItem
-
-	if err := json.Unmarshal([]byte(jsonStr), &item2); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(item2)
-
+	r.Run()
 }
