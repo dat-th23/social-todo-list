@@ -43,6 +43,25 @@ func main() {
 
 	r := gin.Default()
 
+	// CRUD: Create, Read, Update, Delete
+	// POST /v1/items/ (Create a new item)
+	// GET /v1/items (list items) v1/items?page=1
+	// GET /v1/items/:id (get item detail by id)
+	// (PUT || PATCH) /v1/items/:id (Update an item by id)
+	// DELETE /v1/items/:id (Delete item by id)
+
+	v1 := r.Group("/v1")
+	{
+		items := v1.Group("/items")
+		{
+			items.POST("")
+			items.GET("")
+			items.GET("/:id")
+			items.PATCH("/:id")
+			items.DELETE("/:id")
+		}
+	}
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": item,
