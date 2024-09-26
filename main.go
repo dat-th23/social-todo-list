@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -17,7 +21,14 @@ type TodoItem struct {
 }
 
 func main() {
-	fmt.Println("Hello")
+	dsn := os.Getenv("DB_CONN_STR")
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(db)
 
 	now := time.Now().UTC()
 
